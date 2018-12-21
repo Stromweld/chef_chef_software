@@ -1,20 +1,17 @@
 name 'chef_software'
-maintainer 'The Authors'
-maintainer_email 'you@example.com'
-license 'All Rights Reserved'
+maintainer 'Corey Hemminger'
+maintainer_email 'hemminger@hotmail.com'
+license 'Apache-2.0'
 description 'Installs/Configures chef_software'
 long_description 'Installs/Configures chef_software'
-version '0.1.0'
+version '1.0.0'
 chef_version '>= 13.0'
 
-# The `issues_url` points to the location where issues for this cookbook are
-# tracked.  A `View Issues` link will be displayed on this cookbook's page when
-# uploaded to a Supermarket.
-#
-# issues_url 'https://github.com/<insert_org_here>/chef_software/issues'
+issues_url 'https://github.com/Stromweld/chef_software/issues'
+source_url 'https://github.com/Stromweld/chef_software'
 
-# The `source_url` points to the development repository for this cookbook.  A
-# `View Source` link will be displayed on this cookbook's page when uploaded to
-# a Supermarket.
-#
-# source_url 'https://github.com/<insert_org_here>/chef_software'
+%w(centos redhat ubuntu).each do |os|
+  supports os
+end
+
+depends 'chef-ingredient'

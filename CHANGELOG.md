@@ -2,10 +2,6 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
-# 0.1.0
+## 0.1.0 (2018-12-11)
 
-Initial release.
-
-- change 0
-- change 1
-
+- [Corey Hemminger] - Initial Release

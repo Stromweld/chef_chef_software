@@ -1,6 +1,6 @@
 #
 # Cookbook:: chef_software
-# Recipe:: default
+# Recipe:: chef_supermarket
 #
 # Copyright:: 2019, Corey Hemminger
 #
@@ -17,4 +17,8 @@
 # limitations under the License.
 
 
-Chef::Log.warn('The chef_software::default recipe includes no resources and should not be included directly on nodes')
+chef_supermarket 'supermarket' do
+  node['chef_software']['chef_supermarket']&.each do |key, value|
+    send(key, value)
+  end
+end

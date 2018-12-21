@@ -81,6 +81,7 @@ Rakefile
 Berksfile
 Berksfile.lock
 cookbooks/*
+cookbook/*
 tmp
 
 # Bundler #
@@ -95,7 +96,6 @@ Policyfile.lock.json
 # Cookbooks #
 #############
 CONTRIBUTING*
-CHANGELOG*
 TESTING*
 
 # Vagrant #
