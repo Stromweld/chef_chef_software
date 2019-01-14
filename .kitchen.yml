@@ -1,7 +1,7 @@
 ---
 driver:
   name: vagrant
-  pre_create_command: vagrant box update --box bento/$KITCHEN_PLATFORM_NAME
+  pre_create_command: vagrant box update --box $KITCHEN_PLATFORM_NAME
   customize:
     memory: 2048
     cpus: 2
@@ -23,7 +23,7 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-7
+  - name: bento/centos-7
 
 suites:
   - name: automatev2

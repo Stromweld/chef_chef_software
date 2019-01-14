@@ -4,7 +4,7 @@ maintainer_email 'hemminger@hotmail.com'
 license 'Apache-2.0'
 description 'Installs/Configures chef_software'
 long_description 'Installs/Configures chef_software'
-version '1.0.0'
+version '1.0.1'
 chef_version '>= 13.0'
 
 issues_url 'https://github.com/Stromweld/chef_software/issues'
