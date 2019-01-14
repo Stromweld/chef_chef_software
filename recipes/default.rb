@@ -16,5 +16,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 Chef::Log.warn('The chef_software::default recipe includes no resources and should not be included directly on nodes')

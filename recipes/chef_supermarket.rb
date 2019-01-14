@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 chef_supermarket 'supermarket' do
   node['chef_software']['chef_supermarket']&.each do |key, value|
     send(key, value)

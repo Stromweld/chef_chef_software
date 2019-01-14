@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 default['chef_software']['chef_server_api_fqdn'] = 'chef-server.example.com'
 default['chef_software']['chef_automate_api_fqdn'] = 'chef-automate.example.com'
 default['chef_software']['chef_supermarket_api_fqdn'] = 'chef-supermarket.example.com'
