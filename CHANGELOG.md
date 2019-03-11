@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
+## 1.0.3 (2019-03-11)
+
+- [Corey Hemminger] - Make description the same as long description
+
 ## 1.0.2 (2019-03-11)
 
 - [Corey Hemminger] - Updated metadata description
