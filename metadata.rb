@@ -4,7 +4,7 @@ maintainer_email 'hemminger@hotmail.com'
 license 'Apache-2.0'
 description 'Installs/Configures chef server, chef automate2, chef supermarket'
 long_description 'Installs/Configures chef server, chef automate2, chef supermarket'
-version '1.0.3'
+version '1.0.4'
 chef_version '>= 13.0'
 
 issues_url 'https://github.com/Stromweld/chef_software/issues'
