@@ -23,10 +23,11 @@ default['chef_software']['automate_admin_token'] = nil
 
 default['chef_software']['chef_automatev2'] = {
   accept_license: true,
-  config: <<~EOC
+  config: (<<~EOC
     [global.v1]
       fqdn = "#{node['chef_software']['chef_automate_api_fqdn']}"
-  EOC
+    EOC
+          ),
 }
 
 default['chef_software']['automatev2_local_users'] = {
@@ -55,7 +56,7 @@ default['chef_software']['chef_server'] = {
       accept_license: true,
     },
   },
-  config: <<~EOC
+  config: (<<~EOC
     api_fqdn "#{node['chef_software']['chef_server_api_fqdn']}"
     topology "standalone"
     #{"data_collector['root_url'] = 'https://#{node['chef_software']['chef_automate_api_fqdn']}/data-collector/v0/'
@@ -65,7 +66,8 @@ profiles['root_url'] = 'https://#{node['chef_software']['chef_supermarket_api_fq
 oc_id['applications']['supermarket'] = {
   'redirect_uri' => 'https://#{node['chef_software']['chef_supermarket_api_fqdn']}/auth/chef_oauth2/callback'
 }" if node['chef_software']['chef_supermarket_api_fqdn']}
-  EOC
+    EOC
+          ),
 }
 
 default['chef_software']['chef_user'] = {

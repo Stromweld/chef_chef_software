@@ -1,0 +1,50 @@
+---
+driver:
+  name: vagrant
+  box_auto_update: true
+  box_auto_prune: true
+
+provisioner:
+  name: chef_zero
+  retry_on_exit_code:
+    - 35 # 35 is the exit code signaling that the node is rebooting
+  product_name: chef
+  product_version: 16
+  deprecations_as_errors: true
+  chef_license: accept-no-persist
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: amazonlinux-2
+  - name: centos-7
+  - name: centos-8
+
+suites:
+  - name: automatev2
+    driver:
+      customize:
+        memory: 2560
+    provisioner:
+      named_run_list: chef_automatev2
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+
+  - name: server
+    provisioner:
+      named_run_list: chef_server
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+
+  - name: supermarket
+    provisioner:
+      named_run_list: chef_supermarket
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:

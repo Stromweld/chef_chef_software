@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
+
+## 1.1.0 (2020-08-07)
+
+- [Corey Hemminger] - Modernize cookbook with policy file and other skeleton files
+
 ## 1.0.4 (2019-04-01)
 
 - [Corey Hemminger] - Work around to make org admins idempotent
