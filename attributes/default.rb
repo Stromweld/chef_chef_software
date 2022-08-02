@@ -22,6 +22,7 @@ default['chef_software']['chef_supermarket_api_fqdn'] = 'chef-supermarket.exampl
 default['chef_software']['automate_admin_token'] = nil
 
 default['chef_software']['chef_automatev2'] = {
+  products: %w(automate infra-server builder desktop),
   accept_license: true,
   config: (<<~EOC
     [global.v1]
@@ -51,17 +52,9 @@ default['chef_software']['automatev2_iam_policies'] = {
 
 default['chef_software']['chef_server'] = {
   accept_license: true,
-  addons: {
-    'manage' => {
-      accept_license: true,
-    },
-  },
   config: (<<~EOC
     api_fqdn "#{node['chef_software']['chef_server_api_fqdn']}"
     topology "standalone"
-    #{"data_collector['root_url'] = 'https://#{node['chef_software']['chef_automate_api_fqdn']}/data-collector/v0/'
-data_collector['proxy'] = true
-profiles['root_url'] = 'https://#{node['chef_software']['chef_supermarket_api_fqdn']}'" if node['chef_software']['chef_automate_api_fqdn']}
     #{"oc_id['applications'] ||= {}
 oc_id['applications']['supermarket'] = {
   'redirect_uri' => 'https://#{node['chef_software']['chef_supermarket_api_fqdn']}/auth/chef_oauth2/callback'

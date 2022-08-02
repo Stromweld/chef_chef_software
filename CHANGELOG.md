@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
+## 1.1.1 (2022-08-02)
+
+- [Corey Hemminger] - Fix server and supermarket's to run reconfigure after an update
+- [Corey Hemminger] - Add github actions CI/CD pipelines and testing
 
 ## 1.1.0 (2020-08-07)
 
