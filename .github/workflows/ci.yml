@@ -37,6 +37,8 @@ jobs:
             suite: default
           - os: ubuntu-2204
             suite: default
+          - os: ubuntu-2204
+            suite: supermarket
       fail-fast: false
     steps:
       - name: Check out code

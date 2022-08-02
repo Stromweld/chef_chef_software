@@ -48,7 +48,7 @@ Recipe to install chef-supermarket
 
 ## Usage
 
-1. Set attributes via wrapper cookbook, policy files, role or environment files. 
-2. Build chef-automatev2 server first. Create an admin token and update `automate_admin_token` attribute.
-3. Build chef-server second. Update `chef_supermarket` attribute with the correct settings found on the chef server at `/etc/opscode/oc-id-applications/supermarket.json`
-4. Build chef-supermarket third.
+1. Set attributes via wrapper cookbook, policy files, role or environment files.
+1. Build chef-automatev2 server first. Create an admin token and update `automate_admin_token` attribute.
+1. Build chef-server second. Update `chef_supermarket` attribute with the correct settings found on the chef server at `/etc/opscode/oc-id-applications/supermarket.json`
+1. Build chef-supermarket third.
