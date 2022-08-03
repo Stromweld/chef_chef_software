@@ -5,46 +5,54 @@ driver:
   box_auto_prune: true
 
 provisioner:
-  name: chef_zero
+  name: chef_infra
   retry_on_exit_code:
     - 35 # 35 is the exit code signaling that the node is rebooting
   product_name: chef
-  product_version: 16
   deprecations_as_errors: true
+  always_update_cookbooks: true
   chef_license: accept-no-persist
 
 verifier:
   name: inspec
 
 platforms:
+  - name: almalinux-8
+  - name: almalinux-9
   - name: amazonlinux-2
+  # - name: amazonlinux-2022
   - name: centos-7
   - name: centos-8
+  - name: debian-10
+  - name: debian-11
+  - name: ubuntu-20.04
+  - name: ubuntu-22.04
 
 suites:
-  - name: automatev2
+  - name: default
+    named_run_list: 'chef_server'
     driver:
       customize:
-        memory: 2560
-    provisioner:
-      named_run_list: chef_automatev2
+        memory: 3328
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/chef_server
     attributes:
-
-  - name: server
-    provisioner:
-      named_run_list: chef_server
+  - name: automate
+    named_run_list: 'chef_automatev2'
+    driver:
+      customize:
+        memory: 2193
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/chef_automate
     attributes:
-
   - name: supermarket
-    provisioner:
-      named_run_list: chef_supermarket
+    named_run_list: 'chef_supermarket'
     verifier:
       inspec_tests:
         - test/integration/default
+        - test/integration/chef_supermarket
     attributes:

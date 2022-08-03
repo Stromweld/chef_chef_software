@@ -20,4 +20,11 @@ chef_supermarket 'supermarket' do
   node['chef_software']['chef_supermarket']&.each do |key, value|
     send(key, value)
   end
+  notifies :run, 'execute[reconfigure chef supermarket]', :immediately
+end
+
+execute 'reconfigure chef supermarket' do
+  command 'supermarket-ctl reconfigure && supermarket-ctl start && supermarket-ctl status'
+  live_stream true
+  action :nothing
 end

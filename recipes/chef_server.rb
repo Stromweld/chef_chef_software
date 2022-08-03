@@ -20,6 +20,13 @@ chef_server 'chef-server' do
   node['chef_software']['chef_server']&.each do |key, value|
     send(key, value)
   end
+  notifies :run, 'execute[reconfigure chef server]', :immediately
+end
+
+execute 'reconfigure chef server' do
+  command 'chef-server-ctl stop && chef-server-ctl reconfigure && chef-server-ctl start && chef-server-ctl status'
+  live_stream true
+  action :nothing
 end
 
 if node['chef_software']['chef_automate_api_fqdn'] && node['chef_software']['automate_admin_token']
