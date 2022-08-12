@@ -33,20 +33,30 @@ default['chef_software']['chef_automatev2'] = {
 
 default['chef_software']['automatev2_local_users'] = {
   test1: {
-    full_name: 'Test 1',
-    password: 'Test1234!',
-    sensitive: true,
+    user_json: {
+      id: 'test1',
+      name: 'Test 1',
+      password: 'Test1234!',
+    },
   },
 }
 
 default['chef_software']['automatev2_iam_policies'] = {
   test1: {
     policy_json: {
-      subjects: ['user:local:test1'],
-      action: '*',
-      resource: '*',
+      name: 'Test1',
+      id: 'test1',
+      projects: [],
+      members: ['user:local:test1'],
+      statements: [
+        {
+          effect: 'ALLOW',
+          actions: ['*'],
+          projects: ['*'],
+          role: 'owner'
+        }
+      ]
     },
-    sensitive: true,
   },
 }
 

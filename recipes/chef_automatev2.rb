@@ -24,18 +24,10 @@ end
 
 if node['chef_software']['automate_admin_token']
   node['chef_software']['automatev2_local_users']&.each do |name, hash|
-    execute "create local user #{name}" do
-      command "curl --insecure -H \"api-token: #{node['chef_software']['automate_admin_token']}\" -H \"Content-Type: application/json\" -d '{\"name\":\"#{hash['full_name']}\", \"username\":\"#{name}\", \"password\":\"#{hash['password']}\"}' https://localhost/api/v0/auth/users"
-      not_if { shell_out("curl --insecure -H \"api-token: #{node['chef_software']['automate_admin_token']}\" https://localhost/api/v0/auth/users/#{name}").stdout.include?(name) }
-      sensitive true
-    end
+    create_iam_user(hash['user_json'])
   end
 
   node['chef_software']['automatev2_iam_policies']&.each do |name, hash|
-    execute "generate iam policy #{name}" do
-      command "curl --insecure -s -H \"api-token: #{node['chef_software']['automate_admin_token']}\" -H \"Content-Type: application/json\" -d '#{hash['policy_json'].to_json}' https://localhost/api/v0/auth/policies -v"
-      not_if { shell_out("curl --insecure -s -H \"api-token: #{node['chef_software']['automate_admin_token']}\" https://localhost/api/v0/auth/policies -v").stdout.include?(hash['policy_json']['subjects'].first) }
-      sensitive true
-    end
+    create_iam_policy(hash['policy_json'])
   end
 end
