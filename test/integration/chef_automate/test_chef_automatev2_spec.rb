@@ -22,6 +22,12 @@ describe service('chef-automate') do
   it { should be_enabled }
 end
 
+%w(80 443).each do |port|
+  describe port(port) do
+    it { should be_listening }
+  end
+end
+
 # TODO: uncomment when resource are out of experimental
 # describe habitat_packages do
 #   its('names') { should include 'automate-ui' }

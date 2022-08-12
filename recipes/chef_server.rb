@@ -24,7 +24,7 @@ chef_server 'chef-server' do
 end
 
 execute 'reconfigure chef server' do
-  command 'chef-server-ctl stop && chef-server-ctl reconfigure && chef-server-ctl start && chef-server-ctl status'
+  command 'chef-server-ctl stop && chef-server-ctl upgrade && chef-server-ctl start && chef-server-ctl cleanup && chef-server-ctl status'
   live_stream true
   action :nothing
 end
