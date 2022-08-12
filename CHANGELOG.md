@@ -2,6 +2,15 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
+## 2.0.1 (2022-08-12)
+
+- [Corey Hemminger] - Update changelog
+
+## 2.0.0 (2022-08-12)
+
+- [Corey Hemminger] - Update chef_automatev2 recipe to use iamv2 for user and policy creation
+- [Corey Hemminger] - update chef_server to run chef-server-ctl upgrade vs chef-server-ctl reconfigure
+
 ## 1.1.1 (2022-08-02)
 
 - [Corey Hemminger] - Fix server and supermarket's to run reconfigure after an update
