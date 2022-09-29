@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
+## 2.0.2 (2022-09-29)
+
+- [Corey Hemminger] - Removed chef-ingredient reference to fork from policyfile
+
 ## 2.0.1 (2022-08-12)
 
 - [Corey Hemminger] - Update changelog

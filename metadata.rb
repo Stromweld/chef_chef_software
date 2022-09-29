@@ -3,7 +3,7 @@ maintainer 'Corey Hemminger'
 maintainer_email 'hemminger@hotmail.com'
 license 'Apache-2.0'
 description 'Installs/Configures chef server, chef automate2, chef supermarket'
-version '2.0.1'
+version '2.0.2'
 chef_version '>= 16.4'
 
 issues_url 'https://github.com/Stromweld/chef_software/issues'
