@@ -17,4 +17,3 @@ named_run_list :chef_supermarket, 'chef_software::chef_supermarket'
 
 # Specify a custom source for a single cookbook:
 cookbook 'chef_software', path: '.'
-cookbook 'chef-ingredient', git: 'https://github.com/stromweld/chef-ingredient.git', branch: 'main'
