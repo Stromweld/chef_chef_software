@@ -2,6 +2,9 @@
 driver:
   name: dokken
   privileged: true # because Docker and SystemD/Upstart
+  cgroupns_host: true
+  volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:rw
 
 transport:
   name: dokken
