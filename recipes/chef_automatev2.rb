@@ -32,7 +32,7 @@ if node['chef_software']['automate_admin_token']
   end
 end
 
-if node['chef_software']['chef_automatev2']['products'].include?('infra-server')
+if node['chef_software']['chef_automatev2']['products']&.include?('infra-server')
   node['chef_software']['chef_user']&.each do |name, hash|
     chef_user name do
       hash&.each do |key, value|
