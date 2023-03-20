@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
+## 2.1.1 (20232-03-20)
+
+- [Corey Hemminger] - Add safe navigation to .include method for automatev2 recipe
+
 ## 2.1.0 (20232-03-17)
 
 - [Corey Hemminger] - Add Integrated Infra-Server user and org config to automate recipe
