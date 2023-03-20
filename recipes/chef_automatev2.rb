@@ -31,3 +31,21 @@ if node['chef_software']['automate_admin_token']
     create_iam_policy(hash['policy_json'])
   end
 end
+
+if node['chef_software']['chef_automatev2']['products'].include?('infra-server')
+  node['chef_software']['chef_user']&.each do |name, hash|
+    chef_user name do
+      hash&.each do |key, value|
+        send(key, value)
+      end
+    end
+  end
+
+  node['chef_software']['chef_org']&.each do |name, hash|
+    chef_org name do
+      hash&.each do |key, value|
+        send(key, value)
+      end
+    end
+  end
+end

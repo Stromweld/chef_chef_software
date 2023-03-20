@@ -29,14 +29,34 @@ platforms:
       image: dokken/amazonlinux-2
       pid_one_command: /usr/lib/systemd/systemd
 
+  - name: amazonlinux-2023
+    driver:
+      image: dokken/amazonlinux-2023
+      pid_one_command: /usr/lib/systemd/systemd
+
   - name: centos-7
     driver:
       image: dokken/centos-7
       pid_one_command: /usr/lib/systemd/systemd
 
-  - name: centos-8
+  - name: centos-stream-8
     driver:
-      image: dokken/centos-8
+      image: dokken/centos-stream-8
+      pid_one_command: /usr/lib/systemd/systemd
+
+  - name: centos-stream-9
+    driver:
+      image: dokken/centos-stream-9
+      pid_one_command: /usr/lib/systemd/systemd
+
+  - name: rockylinux-8
+    driver:
+      image: dokken/rockylinux-8
+      pid_one_command: /usr/lib/systemd/systemd
+
+  - name: rockylinux-9
+    driver:
+      image: dokken/rockylinux-9
       pid_one_command: /usr/lib/systemd/systemd
 
   - name: debian-10
@@ -48,7 +68,7 @@ platforms:
 
   - name: debian-11
     driver:
-      image: dokken/debian-10
+      image: dokken/debian-11
       pid_one_command: /bin/systemd
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
