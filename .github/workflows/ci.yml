@@ -21,11 +21,14 @@ jobs:
       matrix:
         os:
           - amazonlinux-2
-#          - amazonlinux-2022
+          - amazonlinux-2023
           - centos-7
-          - centos-8
+          - centos-stream-8
+          - centos-stream-9
           - almalinux-8
-#          - almalinux-9 # TODO: uncomment this when almalinux-9 dokken image is fixed
+          - almalinux-9
+          - rockylinux-8
+          - rockylinux-9
           - ubuntu-2004
           - ubuntu-2204
         suite:
