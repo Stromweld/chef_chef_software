@@ -42,10 +42,17 @@ if node['chef_software']['chef_automatev2']['products']&.include?('infra-server'
   end
 
   node['chef_software']['chef_org']&.each do |name, hash|
+    template "#{Chef::Config[:file_cache_path]}/#{name}" do
+      source 'orgs.erb'
+      variables org_opts: hash
+      notifies :create, "chef_org[#{name}]", :immediately
+    end
+
     chef_org name do
       hash&.each do |key, value|
         send(key, value)
       end
+      action :nothing
     end
   end
 end
