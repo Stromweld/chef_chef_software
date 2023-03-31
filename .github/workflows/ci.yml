@@ -20,7 +20,6 @@ jobs:
     strategy:
       matrix:
         os:
-          - amazonlinux-2
           - amazonlinux-2023
           - centos-7
           - centos-stream-8
