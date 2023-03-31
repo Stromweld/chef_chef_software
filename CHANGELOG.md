@@ -2,7 +2,11 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
-## 2.1.1 (20232-03-20)
+## 2.1.2 (2023-03-31)
+
+- [Corey Hemminger] - Hacky way of adding idempotency to chef-server org admin association
+
+## 2.1.1 (2023-03-20)
 
 - [Corey Hemminger] - Add safe navigation to .include method for automatev2 recipe
 
