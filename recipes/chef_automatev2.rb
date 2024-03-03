@@ -27,7 +27,6 @@ node['chef_software']['automatev2_local_users']&.each do |name, hash|
     user_hash hash['user_json']
     api_token lazy { node['chef_software']['automate_admin_token'] }
     action :create
-    only_if lazy { node['chef_software']['automate_admin_token'] }
   end
 end
 
@@ -36,7 +35,6 @@ node['chef_software']['automatev2_iam_policies']&.each do |name, hash|
     policy_hash hash['policy_json']
     api_token lazy { node['chef_software']['automate_admin_token'] }
     action :create
-    only_if lazy { node['chef_software']['automate_admin_token'] }
   end
 end
 
