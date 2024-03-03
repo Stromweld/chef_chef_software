@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #
 # Cookbook:: chef_software
 # Recipe:: chef_automatev2

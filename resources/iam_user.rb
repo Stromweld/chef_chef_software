@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # To learn more about Custom Resources, see https://docs.chef.io/custom_resources.html
 #
 # Author:: Corey Hemminger

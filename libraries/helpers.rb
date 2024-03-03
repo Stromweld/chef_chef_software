@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ChefSoftware
   module Helpers
     def get_iam_user(user)

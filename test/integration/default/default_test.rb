@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # InSpec test for recipe xe_chef_automate_role::default
 
 # The InSpec reference, with examples and extensive documentation, can be
