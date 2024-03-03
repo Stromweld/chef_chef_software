@@ -8,7 +8,7 @@ module ChefSoftware
       Mash.new(JSON.parse(shell_out("curl --insecure -s -H \"api-token: #{token}\" https://localhost/apis/iam/v2/policies/#{policy_name}").stdout))
     end
 
-    def kitchen_api_token(name)
+    def kitchen_create_api_token(name)
       shell_out("chef-automate iam token create #{name} --admin").stdout.strip
     end
   end

@@ -29,6 +29,7 @@ property :name, String,
 
 property :user_hash, Hash,
          required: true,
+         sensitive: true,
          description: 'User json in ruby hash format'
 
 property :api_token, String,
