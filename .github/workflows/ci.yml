@@ -1,0 +1,76 @@
+---
+on:
+  pull_request:
+
+jobs:
+  markdownlint:
+    uses: Stromweld/github-workflows/.github/workflows/markdown-lint.yml@main
+
+  yamllint:
+    uses: Stromweld/github-workflows/.github/workflows/yaml-lint.yml@main
+
+  jsonlint:
+    uses: Stromweld/github-workflows/.github/workflows/json-lint.yml@main
+
+  cookstylelint:
+    uses: Stromweld/github-workflows/.github/workflows/cookstyle-lint.yml@main
+
+  integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - centos-7
+          - almalinux-8
+          - almalinux-9
+          - rockylinux-8
+          - rockylinux-9
+          - ubuntu-2004
+          - ubuntu-2204
+        suite:
+          - server
+          - automate
+          - supermarket
+      fail-fast: false
+    steps:
+      - name: Check out code
+        uses: actions/checkout@main
+      - name: Install Vagrant
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y vagrant virtualbox
+      - name: Install Chef
+        uses: actionshub/chef-install@main
+      - name: Test-Kitchen Converge
+        uses: actionshub/test-kitchen@main
+        with:
+          suite: ${{ matrix.suite }}
+          os: ${{ matrix.os }}
+          action: converge
+        env:
+          CHEF_LICENSE: accept-no-persist
+      - name: Test-Kitchen Verify
+        uses: actionshub/test-kitchen@main
+        with:
+          suite: ${{ matrix.suite }}
+          os: ${{ matrix.os }}
+          action: verify
+        env:
+          CHEF_LICENSE: accept-no-persist
+
+  check:
+    if: always()
+    needs:
+      - markdownlint
+      - yamllint
+      - jsonlint
+      - cookstylelint
+      - integration
+    runs-on: Ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@main
+        with:
+          allowed-failures:
+          allowed-skips:
+          jobs: ${{ toJSON(needs) }}
