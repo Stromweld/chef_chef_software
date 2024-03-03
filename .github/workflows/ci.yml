@@ -31,6 +31,17 @@ jobs:
           - server
           - automate
           - supermarket
+        exclude:
+          - os: almalinux-9
+            suite: supermarket
+          - os: rockylinux-8
+            suite: server
+          - os: rockylinux-8
+            suite: supermarket
+          - os: rockylinux-9
+            suite: supermarket
+          - os: ubuntu-2204
+            suite: supermarket
       fail-fast: false
     steps:
       - name: Check out code

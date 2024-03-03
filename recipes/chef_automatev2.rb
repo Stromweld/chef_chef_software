@@ -22,10 +22,12 @@ chef_automatev2 'Create Automate server' do
   end
 end
 
+test = lazy { shell_out('chef-automate iam token create admin --admin').stdout.strip }
+
 node['chef_software']['automatev2_local_users']&.each do |name, hash|
   iam_user name do
     user_hash hash['user_json']
-    api_token lazy { node['chef_software']['automate_admin_token'] }
+    api_token kitchen? ? test : node['chef_software']['automate_admin_token']
     action :create
   end
 end
@@ -33,7 +35,7 @@ end
 node['chef_software']['automatev2_iam_policies']&.each do |name, hash|
   iam_policy name do
     policy_hash hash['policy_json']
-    api_token lazy { node['chef_software']['automate_admin_token'] }
+    api_token kitchen? ? test : node['chef_software']['automate_admin_token']
     action :create
   end
 end
