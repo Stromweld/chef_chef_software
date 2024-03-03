@@ -32,7 +32,7 @@ if node['chef_software']['automate_admin_token']
   end
 
   node['chef_software']['automatev2_iam_policies']&.each do |name, hash|
-    create_iam_policy name do
+    iam_policy name do
       policy_hash hash['policy_json']
       api_token node['chef_software']['automate_admin_token']
       action :create

@@ -1,4 +1,4 @@
-# InSpec test for recipe xe_chef_automate_role::default
+# InSpec test for recipe chef_automate
 
 # The InSpec reference, with examples and extensive documentation, can be
 # found at https://www.inspec.io/docs/reference/resources/

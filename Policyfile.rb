@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Policyfile.rb - Describe how you want Chef Infra Client to build your system.
 #
 # For more information on the Policyfile feature, visit

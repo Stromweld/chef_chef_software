@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 name 'chef_software'
 maintainer 'Corey Hemminger'
 maintainer_email 'hemminger@hotmail.com'
