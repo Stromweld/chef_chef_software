@@ -34,7 +34,7 @@ property :user_hash, Hash,
 
 property :api_token, String,
          required: true,
-         sensitive: true,
+         # sensitive: true,
          description: 'Automate API token'
 
 action :create do
@@ -50,8 +50,7 @@ action :create do
   test_result = if srv_user['error'].eql?('No user record found')
                   true
                 elsif srv_user['error']
-                  Chef::Log.error(srv_user['error'].inspect)
-                  false
+                  raise srv_user['error'].inspect
                 elsif srv_user['user']['id'].eql?(user_hash['id'])
                   false
                 else
@@ -76,8 +75,7 @@ action :update do
   srv_user = get_iam_user(user_hash['id'], api_token)
   # Test user from server and desired user match key by key from desired policy
   test_result = if srv_user['error']
-                  Chef::Log.error(srv_user['error'].inspect)
-                  true
+                  raise srv_user['error'].inspect
                 else
                   user_hash['id'].eql?(srv_user['user']['id']) && user_hash['name'].eql?(srv_user['user']['name'])
                 end

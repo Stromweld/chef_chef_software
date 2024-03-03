@@ -33,7 +33,7 @@ property :policy_hash, Hash,
 
 property :api_token, String,
          required: true,
-         sensitive: true,
+         # sensitive: true,
          description: 'Automate API token'
 
 action :create do
@@ -49,8 +49,7 @@ action :create do
   test_result = if srv_policy['error'].eql?("no policy with ID \"#{policy_hash['id']}\" found")
                   true
                 elsif srv_policy['error']
-                  Chef::Log.error(srv_policy['error'].inspect)
-                  false
+                  raise srv_policy['error'].inspect
                 elsif srv_policy['policy']['id'].eql?(policy_hash['id'])
                   false
                 else
@@ -76,8 +75,7 @@ action :update do
   Chef::Log.info("\nuserpolicy: #{policy_json.inspect}\nsrv_policy: #{srv_policy.inspect}\n")
   # Test policy from server and desired policy match key by key from desired policy
   test_result = if srv_policy['error']
-                  Chef::Log.error(srv_policy['error'].inspect)
-                  true
+                  raise srv_policy['error'].inspect
                 else
                   test = true
                   statement_test = true
