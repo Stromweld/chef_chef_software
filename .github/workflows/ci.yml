@@ -15,12 +15,11 @@ jobs:
   cookstylelint:
     uses: Stromweld/github-workflows/.github/workflows/cookstyle-lint.yml@main
 
-  integration-dokken:
+  integration:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         os:
-          - amazonlinux-2023
           - centos-7
           - centos-stream-8
           - centos-stream-9
@@ -31,7 +30,7 @@ jobs:
           - ubuntu-2004
           - ubuntu-2204
         suite:
-          - default
+          - server
           - automate
           - supermarket
       fail-fast: false
@@ -48,7 +47,6 @@ jobs:
           action: converge
         env:
           CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.dokken.yml
       - name: Test-Kitchen Verify
         uses: actionshub/test-kitchen@main
         with:
@@ -57,7 +55,6 @@ jobs:
           action: verify
         env:
           CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.dokken.yml
 
   check:
     if: always()
@@ -66,7 +63,7 @@ jobs:
       - yamllint
       - jsonlint
       - cookstylelint
-      - integration-dokken
+      - integration
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
