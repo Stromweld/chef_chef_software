@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: chef_software
 # Recipe:: chef_server
@@ -32,7 +34,9 @@ end
 if node['chef_software']['chef_automate_api_fqdn'] && node['chef_software']['automate_admin_token']
   execute 'set data_collector token' do
     command "chef-server-ctl set-secret data_collector token '#{node['chef_software']['automate_admin_token']}'"
-    not_if { shell_out('chef-server-ctl show-secret data_collector token').stdout.include?(node['chef_software']['automate_admin_token']) }
+    not_if do
+      shell_out('chef-server-ctl show-secret data_collector token').stdout.include?(node['chef_software']['automate_admin_token'])
+    end
     notifies :run, 'execute[chef-server-ctl restart nginx]', :immediately
     notifies :run, 'execute[chef-server-ctl restart opscode-erchef]', :immediately
     sensitive true

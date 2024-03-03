@@ -1,13 +1,13 @@
-# # encoding: utf-8
+# frozen_string_literal: true
 
-# Inspec test for recipe chef_software::default
+# InSpec test for recipe xe_chef_automate_role::default
 
-# The Inspec reference, with examples and extensive documentation, can be
-# found at http://inspec.io/docs/reference/resources/
+# The InSpec reference, with examples and extensive documentation, can be
+# found at https://www.inspec.io/docs/reference/resources/
 
 # Listening port
-%w(80 443).each do |port|
-  describe port(port) do
+%w(80 443).each do |port_num|
+  describe port(port_num) do
     it { should be_listening }
   end
 end

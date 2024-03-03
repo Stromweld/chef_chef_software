@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
+## 2.2.0 (2024-03-02)
+
+- [Corey Hemminger] - Moved iam_policy and iam_user creation to resources
+
 ## 2.1.2 (2023-03-31)
 
 - [Corey Hemminger] - Hacky way of adding idempotency to chef-server org admin association
