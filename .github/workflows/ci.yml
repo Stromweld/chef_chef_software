@@ -21,8 +21,6 @@ jobs:
       matrix:
         os:
           - centos-7
-          - centos-stream-8
-          - centos-stream-9
           - almalinux-8
           - almalinux-9
           - rockylinux-8
