@@ -27,7 +27,7 @@ property :name, String,
          name_property: true,
          description: 'Name of the IAM policy'
 
-property :policy_hash, String,
+property :policy_hash, Hash,
          required: true,
          description: 'Policy json in ruby hash format'
 

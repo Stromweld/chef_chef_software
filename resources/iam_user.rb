@@ -27,7 +27,7 @@ property :name, String,
          name_property: true,
          description: 'Name of the IAM user'
 
-property :user_hash, String,
+property :user_hash, Hash,
          required: true,
          description: 'User json in ruby hash format'
 
