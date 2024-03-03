@@ -39,6 +39,8 @@ jobs:
           - os: rockylinux-8
             suite: supermarket
           - os: rockylinux-9
+            suite: server
+          - os: rockylinux-9
             suite: supermarket
           - os: ubuntu-2204
             suite: supermarket

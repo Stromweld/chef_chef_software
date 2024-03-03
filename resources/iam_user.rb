@@ -42,17 +42,26 @@ action :create do
   name = new_resource.name
   user_hash = new_resource.user_hash
   user_json = user_hash.to_json
-  srv_user = get_iam_user(user_hash['id'])
+  # Try to fetch user from server
+  srv_user = get_iam_user(user_hash['id'], api_token)
+  # Test if user on server exists and any errors contacting server
+  test_result = if srv_user['error'].eql?('No user record found')
+                  true
+                elsif srv_user['error']
+                  Chef::Log.error(srv_user['error'].inspect)
+                  false
+                elsif srv_user['user']['id'].eql?(user_hash['id'])
+                  false
+                else
+                  false
+                end
   http_request "create iam user #{name}" do
-    headers({ 'api-token' => new_resource.api_token, 'Content-Type' => 'application/json' })
+    headers({ 'api-token' => api_token, 'Content-Type' => 'application/json' })
     message user_json
     url 'https://localhost/apis/iam/v2/users'
     action :post
     sensitive true
-    only_if {
-      Chef::Log.warn(srv_user['error'].inspect)
-      srv_user['error'].eql?('No user record found')
-    }
+    only_if { test_result }
   end
 end
 
@@ -60,16 +69,17 @@ action :update do
   name = new_resource.name
   user_hash = new_resource.user_hash
   user_json = user_hash.to_json
-  test_user = get_iam_user(user_hash['id'])
+  # Try to fetch user from server
+  srv_user = get_iam_user(user_hash['id'], api_token)
   # Test user from server and desired user match key by key from desired policy
-  test_result = if user_policy['error']
-                  Chef::Log.warn(user_policy['error'].inspect)
+  test_result = if srv_user['error']
+                  Chef::Log.error(srv_user['error'].inspect)
                   true
                 else
-                  user_hash['id'].eql?(test_user['user']['id']) && user_hash['name'].eql?(test_user['user']['name'])
+                  user_hash['id'].eql?(srv_user['user']['id']) && user_hash['name'].eql?(srv_user['user']['name'])
                 end
   http_request "update iam user #{name}" do
-    headers({ 'api-token' => new_resource.api_token, 'Content-Type' => 'application/json' })
+    headers({ 'api-token' =>api_token, 'Content-Type' => 'application/json' })
     message user_json
     url "https://localhost/apis/iam/v2/users/#{user_hash['id']}"
     action :put

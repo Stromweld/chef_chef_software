@@ -42,17 +42,27 @@ action :create do
   name = new_resource.name
   policy_hash = new_resource.policy_hash
   policy_json = policy_hash.to_json
-  srv_policy = get_iam_policy(policy_json['id'])
+  api_token = new_resource.api_token
+  # Try to fetch policy from server
+  srv_policy = get_iam_policy(policy_json['id'], api_token)
+  # Test if policy on server exists and any errors contacting server
+  test_result = if srv_policy['error'].eql?("no policy with ID \"#{policy_hash['id']}\" found")
+                  true
+                elsif srv_policy['error']
+                  Chef::Log.error(srv_policy['error'].inspect)
+                  false
+                elsif srv_policy['policy']['id'].eql?(policy_hash['id'])
+                  false
+                else
+                  false
+                end
   http_request "create iam policy #{name}" do
-    headers({ 'api-token' => new_resource.api_token, 'Content-Type' => 'application/json' })
+    headers({ 'api-token' => api_token, 'Content-Type' => 'application/json' })
     message policy_json
     url 'https://localhost/apis/iam/v2/policies'
     action :post
     sensitive true
-    only_if {
-      Chef::Log.warn(srv_policy['error'].inspect)
-      srv_policy['error'].eql?("no policy with ID \"#{policy_hash['id']}\" found")
-    }
+    only_if { test_result }
   end
 end
 
@@ -60,11 +70,13 @@ action :update do
   name = new_resource.name
   policy_hash = new_resource.policy_hash
   policy_json = policy_hash.to_json
-  srv_policy = get_iam_policy(policy_json['id'])
+  api_token = new_resource.api_token
+  # Try to fetch policy from server
+  srv_policy = get_iam_policy(policy_json['id'], api_token)
   Chef::Log.info("\nuserpolicy: #{policy_json.inspect}\nsrv_policy: #{srv_policy.inspect}\n")
   # Test policy from server and desired policy match key by key from desired policy
   test_result = if srv_policy['error']
-                  Chef::Log.warn(srv_policy['error'].inspect)
+                  Chef::Log.error(srv_policy['error'].inspect)
                   true
                 else
                   test = true
@@ -94,7 +106,7 @@ action :update do
                   end
                 end
   http_request "update iam policy #{name}" do
-    headers({ 'api-token' => new_resource.api_token, 'Content-Type' => 'application/json' })
+    headers({ 'api-token' => api_token, 'Content-Type' => 'application/json' })
     message policy_json
     url "https://localhost/apis/iam/v2/policies/#{policy_hash['id']}"
     action :put
