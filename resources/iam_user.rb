@@ -43,6 +43,7 @@ action :create do
   name = new_resource.name
   user_hash = new_resource.user_hash
   user_json = user_hash.to_json
+  api_token = new_resource.api_token
   # Try to fetch user from server
   srv_user = get_iam_user(user_hash['id'], api_token)
   # Test if user on server exists and any errors contacting server
@@ -70,6 +71,7 @@ action :update do
   name = new_resource.name
   user_hash = new_resource.user_hash
   user_json = user_hash.to_json
+  api_token = new_resource.api_token
   # Try to fetch user from server
   srv_user = get_iam_user(user_hash['id'], api_token)
   # Test user from server and desired user match key by key from desired policy
@@ -80,7 +82,7 @@ action :update do
                   user_hash['id'].eql?(srv_user['user']['id']) && user_hash['name'].eql?(srv_user['user']['name'])
                 end
   http_request "update iam user #{name}" do
-    headers({ 'api-token' =>api_token, 'Content-Type' => 'application/json' })
+    headers({ 'api-token' => api_token, 'Content-Type' => 'application/json' })
     message user_json
     url "https://localhost/apis/iam/v2/users/#{user_hash['id']}"
     action :put
