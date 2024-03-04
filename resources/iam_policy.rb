@@ -54,7 +54,6 @@ action :create do
                 else
                   raise "Unable to determine status of policy ensure this policy_hash id doesn't match an existing srv_policy\npolicy_hash: #{policy_hash['id'].inspect}\nsrv_policy: #{srv_policy['id'].inspect}\nor the error message from server says \"no policy with ID \"#{policy_hash['id']}\" found\"\nError_msg: #{srv_policy['error'].inspect}\n"
                 end
-  raise "\nTEST1 = #{test_result.inspect}\nTEST2 = #{srv_policy.inspect}\n"
   execute "create iam policy #{name}" do
     command "curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies"
     only_if { test_result }
