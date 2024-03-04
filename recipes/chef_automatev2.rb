@@ -25,7 +25,7 @@ end
 node['chef_software']['automatev2_local_users']&.each do |name, hash|
   iam_user name do
     user_hash hash['user_json']
-    api_token lazy { kitchen? ? kitchen_create_api_token('test_user') : node['chef_software']['automate_admin_token'] }
+    api_token lazy { kitchen? ? shell_out("chef-automate iam token create test_user --admin").stdout.strip : node['chef_software']['automate_admin_token'] }
     action :create
   end
 end
