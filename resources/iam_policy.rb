@@ -32,7 +32,7 @@ property :policy_hash, Hash,
 
 property :api_token, String,
          required: true,
-         # sensitive: true,
+         sensitive: true,
          description: 'Automate API token'
 
 action :create do
@@ -54,13 +54,10 @@ action :create do
                 else
                   false
                 end
-  http_request "create iam policy #{name}" do
-    headers({ 'api-token' => api_token, 'Content-Type' => 'application/json' })
-    message policy_json
-    url 'https://localhost/apis/iam/v2/policies'
-    action :post
+  execute "create iam policy #{name}" do
+    command "curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies"
+    not_if { test_result }
     sensitive true
-    only_if { test_result }
   end
 end
 
@@ -102,12 +99,9 @@ action :update do
                     false
                   end
                 end
-  http_request "update iam policy #{name}" do
-    headers({ 'api-token' => api_token, 'Content-Type' => 'application/json' })
-    message policy_json
-    url "https://localhost/apis/iam/v2/policies/#{policy_hash['id']}"
-    action :put
-    sensitive true
+  execute "update iam policy #{name}" do
+    command "curl -X PUT --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies/#{policy_hash['id']}"
     not_if { test_result }
+    sensitive true
   end
 end

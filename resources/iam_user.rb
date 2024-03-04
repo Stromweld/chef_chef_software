@@ -55,13 +55,10 @@ action :create do
                 else
                   false
                 end
-  http_request "create iam user #{name}" do
-    headers({ 'api-token' => api_token, 'Content-Type' => 'application/json' })
-    message user_json
-    url 'https://localhost/apis/iam/v2/users'
-    action :post
-    sensitive true
+  execute "create local user #{name}" do
+    command "curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{user_json}' https://localhost/apis/iam/v2/users"
     only_if { test_result }
+    sensitive true
   end
 end
 
@@ -78,12 +75,9 @@ action :update do
                 else
                   user_hash['id'].eql?(srv_user['user']['id']) && user_hash['name'].eql?(srv_user['user']['name'])
                 end
-  http_request "update iam user #{name}" do
-    headers({ 'api-token' => api_token, 'Content-Type' => 'application/json' })
-    message user_json
-    url "https://localhost/apis/iam/v2/users/#{user_hash['id']}"
-    action :put
+  execute "update local user #{name}" do
+    command "curl -X PUT --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{user_json}' https://localhost/apis/iam/v2/users/#{user_hash['id']}"
+    only_if { test_result }
     sensitive true
-    not_if { test_result }
   end
 end
