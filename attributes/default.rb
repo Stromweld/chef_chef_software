@@ -22,13 +22,13 @@ default['chef_software']['chef_supermarket_api_fqdn'] = 'chef-supermarket.exampl
 default['chef_software']['automate_admin_token'] = nil
 
 default['chef_software']['chef_automatev2'] = {
-  products: %w(automate infra-server builder desktop),
+  products: %w(automate infra-server builder),
   accept_license: true,
-  config: (<<~EOC
+  config: <<~EOC,
     [global.v1]
       fqdn = "#{node['chef_software']['chef_automate_api_fqdn']}"
-    EOC
-          ),
+  EOC
+
 }
 
 default['chef_software']['automatev2_local_users'] = {
@@ -53,24 +53,26 @@ default['chef_software']['automatev2_iam_policies'] = {
           effect: 'ALLOW',
           actions: ['*'],
           projects: ['*'],
-          role: 'owner'
-        }
-      ]
+          role: 'owner',
+        },
+      ],
     },
   },
 }
 
 default['chef_software']['chef_server'] = {
   accept_license: true,
-  config: (<<~EOC
-    api_fqdn "#{node['chef_software']['chef_server_api_fqdn']}"
-    topology "standalone"
-    #{"oc_id['applications'] ||= {}
-oc_id['applications']['supermarket'] = {
-  'redirect_uri' => 'https://#{node['chef_software']['chef_supermarket_api_fqdn']}/auth/chef_oauth2/callback'
-}" if node['chef_software']['chef_supermarket_api_fqdn']}
-    EOC
-          ),
+  config: <<~EOC,
+        api_fqdn "#{node['chef_software']['chef_server_api_fqdn']}"
+        topology "standalone"
+        #{if node['chef_software']['chef_supermarket_api_fqdn']
+            "oc_id['applications'] ||= {}
+    oc_id['applications']['supermarket'] = {
+      'redirect_uri' => 'https://#{node['chef_software']['chef_supermarket_api_fqdn']}/auth/chef_oauth2/callback'
+    }"
+          end}
+  EOC
+
 }
 
 default['chef_software']['chef_user'] = {

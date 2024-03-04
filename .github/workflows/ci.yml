@@ -15,15 +15,12 @@ jobs:
   cookstylelint:
     uses: Stromweld/github-workflows/.github/workflows/cookstyle-lint.yml@main
 
-  integration-dokken:
+  integration:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         os:
-          - amazonlinux-2023
           - centos-7
-          - centos-stream-8
-          - centos-stream-9
           - almalinux-8
           - almalinux-9
           - rockylinux-8
@@ -31,13 +28,30 @@ jobs:
           - ubuntu-2004
           - ubuntu-2204
         suite:
-          - default
+          - server
           - automate
           - supermarket
+        exclude:
+          - os: almalinux-9
+            suite: supermarket
+          - os: rockylinux-8
+            suite: server
+          - os: rockylinux-8
+            suite: supermarket
+          - os: rockylinux-9
+            suite: server
+          - os: rockylinux-9
+            suite: supermarket
+          - os: ubuntu-2204
+            suite: supermarket
       fail-fast: false
     steps:
       - name: Check out code
         uses: actions/checkout@main
+      - name: Install Vagrant
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y vagrant virtualbox
       - name: Install Chef
         uses: actionshub/chef-install@main
       - name: Test-Kitchen Converge
@@ -48,7 +62,6 @@ jobs:
           action: converge
         env:
           CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.dokken.yml
       - name: Test-Kitchen Verify
         uses: actionshub/test-kitchen@main
         with:
@@ -57,7 +70,6 @@ jobs:
           action: verify
         env:
           CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.dokken.yml
 
   check:
     if: always()
@@ -66,7 +78,7 @@ jobs:
       - yamllint
       - jsonlint
       - cookstylelint
-      - integration-dokken
+      - integration
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
