@@ -77,7 +77,7 @@ action :update do
                 end
   execute "update local user #{name}" do
     command "curl -X PUT --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{user_json}' https://localhost/apis/iam/v2/users/#{user_hash['id']}"
-    only_if { test_result }
+    not_if { test_result }
     sensitive true
   end
 end

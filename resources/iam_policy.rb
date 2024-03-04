@@ -57,7 +57,7 @@ action :create do
   raise "\nTEST1 = #{test_result.inspect}\nTEST2 = #{srv_policy.inspect}\n"
   execute "create iam policy #{name}" do
     command "curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies"
-    not_if { test_result }
+    only_if { test_result }
     sensitive true
   end
 end
