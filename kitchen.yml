@@ -42,6 +42,8 @@ suites:
         - test/integration/default
         - test/integration/chef_server
     attributes:
+      chef_software:
+        automate_admin_token: mIUYdbBD6U8a9wg3IAbXScEjiXs=
   - name: automate
     named_run_list: 'chef_automatev2'
     driver:
