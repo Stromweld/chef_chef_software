@@ -43,7 +43,7 @@ action :create do
   policy_json = policy_hash.to_json
   api_token = new_resource.api_token
   # Try to fetch policy from server
-  srv_policy = get_iam_policy(policy_json['id'], api_token)
+  srv_policy = get_iam_policy(policy_hash['id'], api_token)
   # Test if policy on server exists and any errors contacting server
   test_result = if srv_policy['error'].eql?("no policy with ID \"#{policy_hash['id']}\" found")
                   true

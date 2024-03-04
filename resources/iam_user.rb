@@ -49,7 +49,7 @@ action :create do
   test_result = if srv_user['error'].eql?('No user record found')
                   true
                 elsif srv_user['error']
-                  raise "\nTEST1 = #{srv_user['error'].inspect}\nTEST2 = #{api_token.inspect}"
+                  raise srv_user['error'].inspect
                 elsif srv_user['user']['id'].eql?(user_hash['id'])
                   false
                 else
