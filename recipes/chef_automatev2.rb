@@ -23,7 +23,7 @@ chef_automatev2 'Create Automate server' do
 end
 
 if kitchen?
-  ruby_block 'set_automate_admin_token' do
+  ruby_block 'create_automate_admin_token' do
     block do
       node.run_state['automate_admin_token'] = kitchen_create_api_token('admin')
     end
