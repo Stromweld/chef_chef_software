@@ -30,7 +30,6 @@ if kitchen?
   end
 end
 
-
 node['chef_software']['automatev2_local_users']&.each do |name, hash|
   iam_user name do
     user_hash hash['user_json']

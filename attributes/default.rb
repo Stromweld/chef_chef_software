@@ -19,7 +19,7 @@
 default['chef_software']['chef_server_api_fqdn'] = 'chef-server.example.com'
 default['chef_software']['chef_automate_api_fqdn'] = 'chef-automate.example.com'
 default['chef_software']['chef_supermarket_api_fqdn'] = 'chef-supermarket.example.com'
-default['chef_software']['automate_admin_token'] =  nil
+default['chef_software']['automate_admin_token'] = nil
 
 default['chef_software']['chef_automatev2'] = {
   products: %w(automate infra-server builder),

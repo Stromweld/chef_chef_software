@@ -52,8 +52,9 @@ action :create do
                 elsif srv_policy['policy']['id'].eql?(policy_hash['id'])
                   false
                 else
-                  false
+                  raise "Unable to determine status of policy ensure this policy_hash id doesn't match an existing srv_policy\npolicy_hash: #{policy_hash['id'].inspect}\nsrv_policy: #{srv_policy['id'].inspect}\nor the error message from server says \"no policy with ID \"#{policy_hash['id']}\" found\"\nError_msg: #{srv_policy['error'].inspect}\n"
                 end
+  raise "\nTEST1 = #{test_result.inspect}\nTEST2 = #{srv_policy.inspect}\n"
   execute "create iam policy #{name}" do
     command "curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies"
     not_if { test_result }
@@ -74,30 +75,23 @@ action :update do
                   raise srv_policy['error'].inspect
                 else
                   test = true
-                  statement_test = true
-                  unless srv_policy['error']
-                    policy_hash.each_key do |key|
-                      if key.eql?('statements')
-                        policy_hash['statements'].each_index do |i|
-                          policy_hash['statements'][i].each_key do |statement_key|
-                            test = policy_hash['statements'][i][statement_key].eql?(srv_policy['policy']['statements'][i][statement_key])
-                            break if statement_test.eql?(false)
-                          end
-                          break if statement_test.eql?(false)
+                  policy_hash.each_key do |key|
+                    if key.eql?('statements')
+                      policy_hash['statements'].each_index do |i|
+                        policy_hash['statements'][i].each_key do |statement_key|
+                          test = policy_hash['statements'][i][statement_key].eql?(srv_policy['policy']['statements'][i][statement_key])
+                          break if test.eql?(false)
                         end
-                        break if statement_test.eql?(false)
-
-                        next
+                        break if test.eql?(false)
                       end
-                      test = policy_hash[key].eql?(srv_policy['policy'][key])
                       break if test.eql?(false)
+                      next
                     end
+                    break if test.eql?(false)
+                    test = policy_hash[key].eql?(srv_policy['policy'][key])
+                    break if test.eql?(false)
                   end
-                  if test && statement_test
-                    true
-                  else
-                    false
-                  end
+                  test
                 end
   execute "update iam policy #{name}" do
     command "curl -X PUT --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies/#{policy_hash['id']}"

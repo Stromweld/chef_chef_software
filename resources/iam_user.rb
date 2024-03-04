@@ -53,7 +53,7 @@ action :create do
                 elsif srv_user['user']['id'].eql?(user_hash['id'])
                   false
                 else
-                  false
+                  raise "Unable to determine status of user, ensure this user_hash id doesn't match an existing srv_user\nuser_hash: #{user_hash['id'].inspect}\nsrv_user: #{srv_user['id'].inspect}\nor the error message from server says 'No user record found'\nError_msg: #{srv_user['error'].inspect}\n"
                 end
   execute "create local user #{name}" do
     command "curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{user_json}' https://localhost/apis/iam/v2/users"
