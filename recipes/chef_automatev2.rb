@@ -22,10 +22,19 @@ chef_automatev2 'Create Automate server' do
   end
 end
 
+if kitchen?
+  ruby_block 'set_automate_admin_token' do
+    block do
+      node.run_state['automate_admin_token'] = kitchen_create_api_token('admin')
+    end
+  end
+end
+
+
 node['chef_software']['automatev2_local_users']&.each do |name, hash|
   iam_user name do
     user_hash hash['user_json']
-    api_token lazy { kitchen? ? kitchen_create_api_token('test_user') : node['chef_software']['automate_admin_token'] }
+    api_token lazy { kitchen? ? node.run_state['automate_admin_token'] : node['chef_software']['automate_admin_token'] }
     action :create
   end
 end
@@ -33,7 +42,7 @@ end
 node['chef_software']['automatev2_iam_policies']&.each do |name, hash|
   iam_policy name do
     policy_hash hash['policy_json']
-    api_token lazy { kitchen? ? kitchen_create_api_token('test_policy') : node['chef_software']['automate_admin_token'] }
+    api_token lazy { kitchen? ? node.run_state['automate_admin_token'] : node['chef_software']['automate_admin_token'] }
     action :create
   end
 end

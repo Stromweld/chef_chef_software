@@ -19,7 +19,6 @@
 # limitations under the License.
 unified_mode true
 provides :iam_user
-resource_name :iam_user
 
 description 'manage IAM users'
 

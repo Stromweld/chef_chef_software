@@ -19,7 +19,6 @@
 # limitations under the License.
 unified_mode true
 provides :iam_policy
-resource_name :iam_policy
 
 description 'manage IAM policies'
 
