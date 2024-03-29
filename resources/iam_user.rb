@@ -55,8 +55,13 @@ action :create do
                 else
                   raise "Unable to determine status of user, ensure this user_hash id doesn't match an existing srv_user\nuser_hash: #{user_hash['id'].inspect}\nsrv_user: #{srv_user['id'].inspect}\nor the error message from server says 'No user record found'\nError_msg: #{srv_user['error'].inspect}\n"
                 end
-  execute "create local user #{name}" do
-    command "curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{user_json}' https://localhost/apis/iam/v2/users"
+  ruby_block "create local user #{name}" do
+    block do
+      cmd = shell_out("curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{user_json}' https://localhost/apis/iam/v2/users")
+      raise cmd.stderr unless cmd.stderr.empty?
+      output = Mash.new(JSON.parse(cmd.stdout))
+      raise output['error'] if output['error']
+    end
     only_if { test_result }
     sensitive true
   end
@@ -75,8 +80,13 @@ action :update do
                 else
                   user_hash['id'].eql?(srv_user['user']['id']) && user_hash['name'].eql?(srv_user['user']['name'])
                 end
-  execute "update local user #{name}" do
-    command "curl -X PUT --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{user_json}' https://localhost/apis/iam/v2/users/#{user_hash['id']}"
+  ruby_block "update local user #{name}" do
+    block do
+      cmd = shell_out("curl -X PUT --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{user_json}' https://localhost/apis/iam/v2/users/#{user_hash['id']}")
+      raise cmd.stderr unless cmd.stderr.empty?
+      output = Mash.new(JSON.parse(cmd.stdout))
+      raise output['error'] if output['error']
+    end
     not_if { test_result }
     sensitive true
   end

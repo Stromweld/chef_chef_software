@@ -34,7 +34,7 @@ node['chef_software']['automatev2_local_users']&.each do |name, hash|
   iam_user name do
     user_hash hash['user_json']
     api_token lazy { kitchen? ? node.run_state['automate_admin_token'] : node['chef_software']['automate_admin_token'] }
-    action :create
+    action hash['action'] if hash['action']
   end
 end
 
@@ -42,7 +42,7 @@ node['chef_software']['automatev2_iam_policies']&.each do |name, hash|
   iam_policy name do
     policy_hash hash['policy_json']
     api_token lazy { kitchen? ? node.run_state['automate_admin_token'] : node['chef_software']['automate_admin_token'] }
-    action :create
+    action hash['action'] if hash['action']
   end
 end
 

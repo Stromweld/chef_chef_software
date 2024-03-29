@@ -54,8 +54,13 @@ action :create do
                 else
                   raise "Unable to determine status of policy ensure this policy_hash id doesn't match an existing srv_policy\npolicy_hash: #{policy_hash['id'].inspect}\nsrv_policy: #{srv_policy['id'].inspect}\nor the error message from server says \"no policy with ID \"#{policy_hash['id']}\" found\"\nError_msg: #{srv_policy['error'].inspect}\n"
                 end
-  execute "create iam policy #{name}" do
-    command "curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies"
+  ruby_block "create iam policy #{name}" do
+    block do
+      cmd = shell_out("curl --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies")
+      raise cmd.stderr unless cmd.stderr.empty?
+      output = Mash.new(JSON.parse(cmd.stdout))
+      raise output['error'] if output['error']
+    end
     only_if { test_result }
     sensitive true
   end
@@ -67,7 +72,7 @@ action :update do
   policy_json = policy_hash.to_json
   api_token = new_resource.api_token
   # Try to fetch policy from server
-  srv_policy = get_iam_policy(policy_json['id'], api_token)
+  srv_policy = get_iam_policy(policy_hash['id'], api_token)
   Chef::Log.info("\nuserpolicy: #{policy_json.inspect}\nsrv_policy: #{srv_policy.inspect}\n")
   # Test policy from server and desired policy match key by key from desired policy
   test_result = if srv_policy['error']
@@ -92,8 +97,13 @@ action :update do
                   end
                   test
                 end
-  execute "update iam policy #{name}" do
-    command "curl -X PUT --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies/#{policy_hash['id']}"
+  ruby_block "update iam policy #{name}" do
+    block do
+      cmd = shell_out("curl -X PUT --insecure -s -H \"api-token: #{api_token}\" -H \"Content-Type: application/json\" -d '#{policy_json}' https://localhost/apis/iam/v2/policies/#{policy_hash['id']}")
+      raise cmd.stderr unless cmd.stderr.empty?
+      output = Mash.new(JSON.parse(cmd.stdout))
+      raise output['error'] if output['error']
+    end
     not_if { test_result }
     sensitive true
   end
