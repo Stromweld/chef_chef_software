@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef_software cookbook.
 
+## 2.2.1 (2024-03-29)
+
+- [Corey Hemminger] - fixed policy update bug, switched to ruby_block for additional output error detection
+
 ## 2.2.0 (2024-03-04)
 
 - [Corey Hemminger] - Moved iam_policy and iam_user creation to resources, fixed idempotency in resources
